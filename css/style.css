@@ -1,0 +1,417 @@
+/* =====================================================
+   Grid 26 - 나의 F1 블로그
+   기준 화면 : 1920px (풀사이즈만, 미디어 쿼리 없음)
+   배운 것 : flex · grid · position · transition · transform
+             · animation · 미디어 쿼리
+   ===================================================== */
+
+/* ---------- 0. 기본 리셋 ---------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+ul,
+ol {
+    list-style: none;
+}
+a {
+    color: inherit;
+    text-decoration: none;
+}
+img {
+    display: block;
+    max-width: 100%;
+}
+body {
+    font-family: "Noto Sans KR", sans-serif;
+    color: #1f1f3a;
+    background-color: #ffffff;
+}
+
+/* ---------- 1. 상단 배너 : position ---------- */
+header.top {
+    position: relative;                 /* 자식을 absolute로 띄우는 기준 */
+    height: 600px;
+    background: url("../img/banner.jpg") center / cover no-repeat;
+}
+header.top::before {                          /* 글씨가 잘 보이게 어두운 막 */
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, rgba(10, 10, 30, 0.85), rgba(10, 10, 30, 0.1) 70%);
+}
+.top-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 28px max(40px, calc((100% - 1420px) / 2));   /* 1420px 안쪽으로 정렬 */
+    color: white;
+}
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 26px;
+    font-weight: 900;
+}
+.logo img {
+    width: 88px;
+    transition: transform 0.3s;
+}
+.logo:hover img {
+    transform: skewX(-12deg) scale(1.1);
+}
+.menu {
+    display: flex;
+    gap: 44px;
+    font-size: 17px;
+    font-weight: 500;
+}
+.menu a {
+    position: relative;
+    padding-bottom: 6px;
+}
+.menu a::after {                        /* 호버 시 밑줄이 쭉 그려지는 효과 */
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #e10600;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s;
+}
+.menu a:hover::after {
+    transform: scaleX(1);
+}
+
+/* 배너 글씨 : 아래에서 올라오는 animation */
+.hero-text {
+    position: absolute;
+    z-index: 2;
+    top: 52%;
+    left: max(40px, calc((100% - 1420px) / 2));
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    color: white;
+}
+.hero-text > * {
+    animation: fadeUp 0.8s both;
+}
+.hero-text > :nth-child(2) { animation-delay: 0.15s; }
+.hero-text > :nth-child(3) { animation-delay: 0.3s; }
+.hero-text > :nth-child(4) { animation-delay: 0.45s; }
+.hero-text .sub {
+    font-size: 20px;
+    letter-spacing: 4px;
+    color: #cfcfe0;
+}
+.hero-text h1 {
+    font-size: 46px;
+    font-weight: 900;
+}
+.hero-text .desc {
+    font-size: 16px;
+    color: #e6e6f0;
+}
+.btn {
+    margin-top: 10px;
+    padding: 12px 28px;
+    border-radius: 24px;
+    background-color: #e10600;
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+    transition: transform 0.3s, background-color 0.3s;
+}
+.btn:hover {
+    background-color: #b80500;
+    transform: translateY(-3px);
+}
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ---------- 2. 본문 공통 ---------- */
+main {
+    max-width: 1190px;                  /* 카드 폭 1150 + 좌우 여백 */
+    margin: 0 auto;
+    padding: 0 20px 170px;
+}
+.title {
+    margin: 60px 0 44px;
+    font-size: 26px;
+    font-weight: 900;
+}
+
+/* ---------- 3. 공지 카드 : flex + 배너와 겹치기 ---------- */
+.notice {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-top: -58px;                  /* 배너 위로 겹침 */
+    padding: 36px 48px;
+    border-radius: 64px;
+    background-color: white;
+    box-shadow: 0 10px 34px rgba(20, 20, 60, 0.15);
+}
+.avatar {
+    flex-shrink: 0;
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    background-color: #111;
+    text-align: center;
+    line-height: 96px;
+    font-size: 44px;
+}
+.notice-text {
+    flex: 1;
+}
+.notice-text h2 {
+    font-size: 22px;
+    color: #e10600;
+}
+.notice-text p {
+    margin-top: 6px;
+    font-size: 15px;
+    line-height: 1.5;
+    color: #555;
+}
+.tags {
+    display: flex;
+    gap: 10px;
+}
+.tags li {
+    padding: 6px 16px;
+    border: 1px solid #f3b4b4;
+    border-radius: 18px;
+    background-color: #fff1f1;
+    color: #e10600;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+/* ---------- 4. 현재 1위 : flex ---------- */
+.leader {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    padding: 24px 72px 24px 32px;
+    border-radius: 36px;
+    background-color: white;
+    box-shadow: 0 10px 34px rgba(20, 20, 60, 0.12);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.leader:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 40px rgba(20, 20, 60, 0.2);
+}
+.leader img {
+    width: 187px;
+    height: 252px;
+    border-radius: 18px;
+    object-fit: cover;
+}
+.leader-info {
+    flex: 1;
+    margin-left: 11.5vw;                /* 선수 소개 카드의 글 시작 위치와 맞춤 */
+}
+.leader-info h3 {
+    font-size: 38px;
+    font-weight: 900;
+}
+.leader-info p {
+    margin-top: 8px;
+    font-size: 15px;
+    color: #666;
+}
+.points {
+    font-size: 40px;
+    font-weight: 900;
+    color: #e10600;
+    animation: pulse 1.6s infinite alternate ease-in-out;
+}
+.points span {
+    font-size: 20px;
+}
+@keyframes pulse {
+    from { transform: scale(1); }
+    to   { transform: scale(1.1); }
+}
+
+/* ---------- 5. 선수 소개 : flex + row-reverse ---------- */
+.driver {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    margin-bottom: 32px;
+    padding: 24px 32px;
+    border-radius: 36px;
+    background-color: white;
+    box-shadow: 0 10px 34px rgba(20, 20, 60, 0.12);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.driver:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 40px rgba(20, 20, 60, 0.2);
+}
+.driver.reverse {
+    flex-direction: row-reverse;        /* 두 번째 카드만 사진을 오른쪽으로 */
+}
+.driver img {
+    flex: 0 0 400px;
+    width: 400px;
+    aspect-ratio: 8 / 5;
+    border-radius: 18px;
+    object-fit: cover;
+    transition: transform 0.4s;
+}
+.driver:hover img {
+    transform: scale(1.03);
+}
+.driver-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.team {
+    padding-left: 10px;
+    border-left: 3px solid #00d2be;     /* 메르세데스 컬러 */
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #888;
+}
+.driver.reverse .team { border-left-color: #ff3b5c; }
+.team.ferrari { border-left-color: #e10600; }
+.driver-info h3 {
+    font-size: 36px;
+    font-weight: 900;
+}
+.driver-info .text {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #555;
+}
+.more {
+    align-self: flex-end;
+    margin-top: 10px;
+    font-size: 14px;
+    color: #333;
+    transition: transform 0.3s, color 0.3s;
+}
+.more:hover {
+    color: #e10600;
+    transform: translateX(6px);
+}
+
+/* ---------- 6. 더 많은 정보 : grid ---------- */
+#more {
+    max-width: 980px;                   /* 위 카드들보다 좁게 */
+    margin: 0 auto;
+}
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-areas:
+        "home  point racer"
+        "video news  racer";
+    gap: 24px;
+}
+.info-grid li:nth-child(1) { grid-area: home; }
+.info-grid li:nth-child(2) { grid-area: point; }
+.info-grid li:nth-child(3) { grid-area: racer; }
+.info-grid li:nth-child(4) { grid-area: video; }
+.info-grid li:nth-child(5) { grid-area: news; }
+.info-grid li {
+    min-height: 160px;
+}
+.info-grid a {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+    height: 100%;
+    border-radius: 14px;
+    background-color: #000;
+    color: white;
+    font-size: 16px;
+    font-weight: 500;
+    transition: transform 0.3s, background-color 0.3s;
+}
+.info-grid a:hover {
+    background-color: #e10600;
+    transform: translateY(-6px) scale(1.03);
+}
+.icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background-color: #1f1f3a;
+    text-align: center;
+    line-height: 46px;
+    font-size: 20px;
+}
+
+/* ---------- 7. 푸터 ---------- */
+footer {
+    padding: 32px 20px;
+    background-color: #1f1f4a;
+    text-align: center;
+    font-size: 13px;
+    color: #b9b9d6;
+}
+
+/* ---------- 8. TOP 버튼 : position fixed ---------- */
+html {
+    scroll-behavior: smooth;            /* 클릭하면 부드럽게 올라감 */
+}
+footer .top {
+    position: fixed;
+    right: 40px;
+    bottom: 40px;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #e10600;
+    color: white;
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 0.5px;
+    box-shadow: 0 6px 18px rgba(225, 6, 0, 0.4);
+    transition: transform 0.3s, background-color 0.3s;
+}
+footer .top:hover {
+    background-color: #b80500;
+    transform: translateY(-6px);
+}
