@@ -2,7 +2,7 @@
    Grid 26 - 나의 F1 블로그
    기준 화면 : 1920px (풀사이즈만, 미디어 쿼리 없음)
    배운 것 : flex · grid · position · transition · transform
-             · animation · 미디어 쿼리
+             · animation
    ===================================================== */
 
 /* ---------- 0. 기본 리셋 ---------- */
@@ -47,13 +47,15 @@ header.top::before {                          /* 글씨가 잘 보이게 어두�
 .top-bar {
     position: absolute;
     top: 0;
-    left: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
     z-index: 2;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
-    padding: 28px max(40px, calc((100% - 1420px) / 2));   /* 1420px 안쪽으로 정렬 */
+    width: calc(100% - 80px);
+    max-width: 1420px;
+    padding: 28px 0;
     color: white;
 }
 .logo {
@@ -65,16 +67,16 @@ header.top::before {                          /* 글씨가 잘 보이게 어두�
 }
 .logo img {
     width: 88px;
-    transition: transform 0.3s;
+    transition: all 0.3s;
 }
 .logo:hover img {
-    transform: skewX(-12deg) scale(1.1);
+    transform: skew(-12deg) scale(1.1);
 }
 .menu {
     display: flex;
     gap: 44px;
     font-size: 17px;
-    font-weight: 500;
+    font-weight: normal;
 }
 .menu a {
     position: relative;
@@ -85,15 +87,13 @@ header.top::before {                          /* 글씨가 잘 보이게 어두�
     position: absolute;
     left: 0;
     bottom: 0;
-    width: 100%;
+    width: 0;
     height: 2px;
     background-color: #e10600;
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.3s;
+    transition: all 0.3s;
 }
 .menu a:hover::after {
-    transform: scaleX(1);
+    width: 100%;
 }
 
 /* 배너 글씨 : 아래에서 올라오는 animation */
@@ -101,20 +101,35 @@ header.top::before {                          /* 글씨가 잘 보이게 어두�
     position: absolute;
     z-index: 2;
     top: 52%;
-    left: max(40px, calc((100% - 1420px) / 2));
-    transform: translateY(-50%);
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
+    left: 50%;
+    width: calc(100% - 80px);
+    max-width: 1420px;
+    transform: translate(-50%, -50%);
     color: white;
 }
-.hero-text > * {
-    animation: fadeUp 0.8s both;
+/* 23/3의 퍼센트 키프레임: 시작 구간을 유지해 순서대로 등장 */
+.hero-text .sub {
+    animation-name: fadeUp;
+    animation-duration: 0.8s;
 }
-.hero-text > :nth-child(2) { animation-delay: 0.15s; }
-.hero-text > :nth-child(3) { animation-delay: 0.3s; }
-.hero-text > :nth-child(4) { animation-delay: 0.45s; }
+.hero-text h1 {
+    animation-name: fadeUpTitle;
+    animation-duration: 0.95s;
+}
+.hero-text .desc {
+    animation-name: fadeUpDescription;
+    animation-duration: 1.1s;
+}
+.hero-text .btn {
+    animation-name: fadeUpButton;
+    animation-duration: 1.25s;
+}
+.hero-text .sub,
+.hero-text h1,
+.hero-text .desc {
+    width: calc(100% + 40px);
+    margin-bottom: 16px;
+}
 .hero-text .sub {
     font-size: 20px;
     letter-spacing: 4px;
@@ -129,6 +144,8 @@ header.top::before {                          /* 글씨가 잘 보이게 어두�
     color: #e6e6f0;
 }
 .btn {
+    display: inline-block;
+    vertical-align: top;
     margin-top: 10px;
     padding: 12px 28px;
     border-radius: 24px;
@@ -136,21 +153,38 @@ header.top::before {                          /* 글씨가 잘 보이게 어두�
     color: white;
     font-size: 14px;
     font-weight: 700;
-    transition: transform 0.3s, background-color 0.3s;
+    transition: all 0.3s;
 }
 .btn:hover {
     background-color: #b80500;
     transform: translateY(-3px);
 }
 @keyframes fadeUp {
-    from {
+    0% {
         opacity: 0;
         transform: translateY(24px);
     }
-    to {
+    100% {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+/* 전체 시간에서 대기 시간을 뺀 실제 등장 시간은 각각 0.8초 */
+@keyframes fadeUpTitle {
+    0% { opacity: 0; transform: translateY(24px); }
+    15.7894736842% { opacity: 0; transform: translateY(24px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeUpDescription {
+    0% { opacity: 0; transform: translateY(24px); }
+    27.2727272727% { opacity: 0; transform: translateY(24px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeUpButton {
+    0% { opacity: 0; transform: translateY(24px); }
+    36% { opacity: 0; transform: translateY(24px); }
+    100% { opacity: 1; transform: translateY(0); }
 }
 
 /* ---------- 2. 본문 공통 ---------- */
@@ -172,14 +206,17 @@ main {
     display: flex;
     align-items: center;
     gap: 24px;
-    margin-top: -58px;                  /* 배너 위로 겹침 */
+    top: -58px;                         /* 22/23: 위치로 배너 위에 겹침 */
     padding: 36px 48px;
     border-radius: 64px;
     background-color: white;
     box-shadow: 0 10px 34px rgba(20, 20, 60, 0.15);
 }
+#champion .title {
+    margin-top: 2px;                    /* 공지 카드를 올린 58px만큼 간격 보정 */
+}
 .avatar {
-    flex-shrink: 0;
+    flex: 0 0 96px;
     width: 96px;
     height: 96px;
     border-radius: 50%;
@@ -224,17 +261,29 @@ main {
     border-radius: 36px;
     background-color: white;
     box-shadow: 0 10px 34px rgba(20, 20, 60, 0.12);
-    transition: transform 0.3s, box-shadow 0.3s;
+    transition: all 0.3s;
 }
 .leader:hover {
     transform: translateY(-6px);
     box-shadow: 0 16px 40px rgba(20, 20, 60, 0.2);
 }
-.leader img {
+/* 사진은 감싸는 요소에서 자르고, 원래 비율대로 가운데 배치 */
+.leader-photo {
+    position: relative;
+    flex: 0 0 187px;
     width: 187px;
     height: 252px;
     border-radius: 18px;
-    object-fit: cover;
+    overflow: hidden;
+}
+.leader-photo img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: auto;
+    height: 100%;
+    max-width: 500px;
+    transform: translate(-50%, -50%);
 }
 .leader-info {
     flex: 1;
@@ -253,17 +302,20 @@ main {
     font-size: 40px;
     font-weight: 900;
     color: #e10600;
-    animation: pulse 1.6s infinite alternate ease-in-out;
+    animation-name: pulse;
+    animation-duration: 1.6s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
 }
 .points span {
     font-size: 20px;
 }
 @keyframes pulse {
-    from { transform: scale(1); }
-    to   { transform: scale(1.1); }
+    0% { transform: scale(1); }
+    100% { transform: scale(1.1); }
 }
 
-/* ---------- 5. 선수 소개 : flex + row-reverse ---------- */
+/* ---------- 5. 선수 소개 : flex + order (18/1) ---------- */
 .driver {
     display: flex;
     align-items: center;
@@ -273,24 +325,42 @@ main {
     border-radius: 36px;
     background-color: white;
     box-shadow: 0 10px 34px rgba(20, 20, 60, 0.12);
-    transition: transform 0.3s, box-shadow 0.3s;
+    transition: all 0.3s;
 }
 .driver:hover {
     transform: translateY(-6px);
     box-shadow: 0 16px 40px rgba(20, 20, 60, 0.2);
 }
 .driver.reverse {
-    flex-direction: row-reverse;        /* 두 번째 카드만 사진을 오른쪽으로 */
+    justify-content: flex-end;
 }
-.driver img {
+.driver.reverse .driver-photo {
+    order: 1;                          /* 두 번째 카드만 사진을 오른쪽으로 */
+}
+.driver-photo {
+    position: relative;
     flex: 0 0 400px;
     width: 400px;
-    aspect-ratio: 8 / 5;
+    max-width: 100%;
     border-radius: 18px;
-    object-fit: cover;
-    transition: transform 0.4s;
+    overflow: hidden;
+    transition: all 0.4s;
 }
-.driver:hover img {
+.driver-photo::before {
+    content: "";
+    display: block;
+    padding-top: 62.5%;                 /* 가로 8 : 세로 5 */
+}
+.driver-photo img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: auto;
+    height: 100%;
+    max-width: 1000px;
+    transform: translate(-50%, -50%);
+}
+.driver:hover .driver-photo {
     transform: scale(1.03);
 }
 .driver-info {
@@ -300,15 +370,24 @@ main {
     gap: 10px;
 }
 .team {
-    padding-left: 10px;
-    border-left: 3px solid #00d2be;     /* 메르세데스 컬러 */
+    position: relative;
+    padding-left: 13px;                 /* 원래 여백 10px + 색 막대 3px */
     font-size: 14px;
     font-weight: 700;
     letter-spacing: 1px;
     color: #888;
 }
-.driver.reverse .team { border-left-color: #ff3b5c; }
-.team.ferrari { border-left-color: #e10600; }
+.team::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background-color: #00d2be;
+}
+.driver.reverse .team::before { background-color: #ff3b5c; }
+.team.ferrari::before { background-color: #e10600; }
 .driver-info h3 {
     font-size: 36px;
     font-weight: 900;
@@ -323,16 +402,16 @@ main {
     margin-top: 10px;
     font-size: 14px;
     color: #333;
-    transition: transform 0.3s, color 0.3s;
+    transition: all 0.3s;
 }
 .more:hover {
     color: #e10600;
-    transform: translateX(6px);
+    transform: translate(6px, 0);
 }
 
 /* ---------- 6. 더 많은 정보 : grid ---------- */
 #more {
-    max-width: 980px;                   /* 위 카드들보다 좁게 */
+    max-width: 100%;                    /* 선수 소개 카드와 같은 전체 너비 */
     margin: 0 auto;
 }
 .info-grid {
@@ -362,8 +441,8 @@ main {
     background-color: #000;
     color: white;
     font-size: 16px;
-    font-weight: 500;
-    transition: transform 0.3s, background-color 0.3s;
+    font-weight: normal;
+    transition: all 0.3s;
 }
 .info-grid a:hover {
     background-color: #e10600;
@@ -389,9 +468,6 @@ footer {
 }
 
 /* ---------- 8. TOP 버튼 : position fixed ---------- */
-html {
-    scroll-behavior: smooth;            /* 클릭하면 부드럽게 올라감 */
-}
 footer .top {
     position: fixed;
     right: 40px;
@@ -409,7 +485,7 @@ footer .top {
     font-weight: 900;
     letter-spacing: 0.5px;
     box-shadow: 0 6px 18px rgba(225, 6, 0, 0.4);
-    transition: transform 0.3s, background-color 0.3s;
+    transition: all 0.3s;
 }
 footer .top:hover {
     background-color: #b80500;
