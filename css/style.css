@@ -45,11 +45,11 @@ header.top::before {                          /* 글씨가 잘 보이게 어두�
     background: linear-gradient(90deg, rgba(10, 10, 30, 0.85), rgba(10, 10, 30, 0.1) 70%);
 }
 .top-bar {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 50%;
     transform: translate(-50%, 0);
-    z-index: 2;
+    z-index: 20;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -57,6 +57,17 @@ header.top::before {                          /* 글씨가 잘 보이게 어두�
     max-width: 1420px;
     padding: 28px 0;
     color: white;
+}
+.top-bar::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 100vw;
+    height: 100%;
+    transform: translate(-50%, 0);
+    background-color: rgba(15, 15, 30, 0.4);
+    z-index: -1;
 }
 .logo {
     display: flex;
@@ -108,10 +119,7 @@ header.top::before {                          /* 글씨가 잘 보이게 어두�
     color: white;
 }
 /* 23/3의 퍼센트 키프레임: 시작 구간을 유지해 순서대로 등장 */
-.hero-text .sub {
-    animation-name: fadeUp;
-    animation-duration: 0.8s;
-}
+
 .hero-text h1 {
     animation-name: fadeUpTitle;
     animation-duration: 0.95s;
