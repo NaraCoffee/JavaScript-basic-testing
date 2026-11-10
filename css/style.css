@@ -53,7 +53,7 @@ header.top::before {                          /* 글씨가 잘 보이게 어두�
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: calc(100% - 80px);
+    width: 74%;                        /* 좌우 여백을 각각 13% 확보 */
     max-width: 1420px;
     padding: 28px 0;
     color: white;
@@ -102,7 +102,7 @@ header.top::before {                          /* 글씨가 잘 보이게 어두�
     z-index: 2;
     top: 52%;
     left: 50%;
-    width: calc(100% - 80px);
+    width: 74%;                        /* 로고·메뉴와 같은 좌우 여백 */
     max-width: 1420px;
     transform: translate(-50%, -50%);
     color: white;
@@ -127,7 +127,7 @@ header.top::before {                          /* 글씨가 잘 보이게 어두�
 .hero-text .sub,
 .hero-text h1,
 .hero-text .desc {
-    width: calc(100% + 40px);
+    width: 100%;
     margin-bottom: 16px;
 }
 .hero-text .sub {
