@@ -1,20 +1,27 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+    <!-- 한글과 이모지를 올바르게 표시하기 위한 문자 인코딩이다. -->
     <meta charset="UTF-8">
+    <!-- 휴대폰에서 화면 너비를 기기 너비로 인식하게 한다. CSS 미디어 쿼리가 실제 모바일 너비에 맞춰 동작한다. -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grid 26 - 나의 F1 블로그</title>
+    <!-- 화면 모양과 반응형 배치는 css/style.css에서 불러온다. -->
     <link rel="stylesheet" href="./css/style.css">
+    <!-- 외부 웹폰트다. 연결이 안 되면 CSS에 적힌 sans-serif 대체 글꼴을 사용한다. -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&amp;display=swap" rel="stylesheet">
 </head>
 <body>
 
+    <!-- 상단 배너 구역이다. class="top"은 CSS 스타일용, id="top"은 페이지 안에서 이 위치를 가리키는 이름이다. -->
     <header class="top" id="top">
+        <!-- 로고와 메뉴를 담는다. CSS의 position: fixed 덕분에 스크롤해도 화면 위에 남는다. -->
         <div class="top-bar">
             <a href="#" class="logo">
                 <img src="./img/f1-logo.png" alt="F1">
                 <span>Grid 26</span>
             </a>
+            <!-- 메뉴 링크의 #champion, #drivers, #more는 아래 구역의 id와 연결된다. -->
             <nav>
                 <ul class="menu">
                     <li><a href="#">홈</a></li>
@@ -24,6 +31,7 @@
                 </ul>
             </nav>
         </div>
+        <!-- 배너 위의 시즌 문구·제목·설명·순위 보기 링크다. 문구는 여기서 수정한다. -->
         <div class="hero-text">
             <p class="sub">2026 F1 시즌</p>
             <h1>챔피언을 향한 질주</h1>
@@ -32,13 +40,17 @@
         </div>
     </header>
 
+    <!-- 페이지의 주요 내용이다. 공지 카드, 현재 1위, 선수 소개, 정보 타일 순서로 나온다. -->
     <main>
+        <!-- 작성자 소개 카드다. 배너와 겹치는 정도는 CSS의 .notice top 값으로 조절한다. -->
         <section class="notice">
+            <!-- 동그란 프로필 안에 넣는 이모지다. 원형 배경과 크기는 CSS에서 만든다. -->
             <p class="avatar">🧑‍🚀</p>
             <div class="notice-text">
                 <h2>패독 승재</h2>
                 <p>F1의 짜릿한 속도와 치열한 전략 싸움에 빠져 매 경기 챙겨보는 열정적인 팬</p>
             </div>
+            <!-- 관심사 태그 목록이다. 모바일에서는 CSS로 이 목록을 숨긴다. -->
             <ul class="tags">
                 <li>#F1</li>
                 <li>#티포시</li>
@@ -46,9 +58,11 @@
             </ul>
         </section>
 
+        <!-- 상단 순위 메뉴와 순위 보기 링크가 이동하는 구역이다. 이름·팀·점수는 현재 HTML에 직접 입력한 값이다. -->
         <section id="champion">
             <h2 class="title">현재 1위</h2>
             <article class="leader">
+                <!-- 사진 크기를 제한하고 넘치는 부분을 자르는 틀이다. img만 남기면 사진 틀용 CSS가 적용되지 않는다. -->
                 <div class="leader-photo">
                     <img src="./img/champion.jpg" alt="키미 안토넬리">
                 </div>
@@ -56,13 +70,17 @@
                     <h3>Kimi Anotonelli</h3>
                     <p>Mercedes-AMG Petronas Formula 1 Team</p>
                 </div>
+                <!-- 숫자와 단위를 나눠 적어 CSS에서 서로 다른 글자 크기를 적용한다. -->
                 <p class="points">380 <span>PTS</span></p>
             </article>
         </section>
 
+        <!-- 선수 소개 구역이다. 선수 한 명을 article 하나로 묶는다. -->
         <section id="drivers">
             <h2 class="title">선수 소개</h2>
+            <!-- 키미 카드다. id는 이 카드만 가리킬 때 쓸 고유 이름이다. -->
             <article class="driver" id="driver-kimi">
+                <!-- 선수 사진 틀이다. CSS가 너비·비율을 정하고 안의 사진을 가운데에 맞춘다. alt는 사진의 설명이다. -->
                 <div class="driver-photo">
                     <img src="./img/driver-kimi.jpg" alt="키미 안토넬리">
                 </div>
@@ -70,10 +88,13 @@
                     <p class="team">MERCEDES</p>
                     <h3>Kimi Antonelli</h3>
                     <p class="text">F1 역사상 가장 어린 드라이버 중 한 명으로, 메르세데스의 미래를 이끌 재능으로 주목받고 있습니다…</p>
+                    <!-- 선수 소개 페이지가 준비되면 href의 #을 실제 페이지 주소로 바꾼다. 현재 #은 페이지 맨 위를 가리킨다. -->
                     <a href="#" class="more">자세히보기 →</a>
                 </div>
             </article>
+            <!-- 막스 카드에는 driver와 reverse 두 클래스가 있다. 큰 화면에서 사진을 오른쪽에 놓는 용도다. -->
             <article class="driver reverse" id="driver-max">
+                <!-- 선수 사진 틀이다. CSS가 너비·비율을 정하고 안의 사진을 가운데에 맞춘다. alt는 사진의 설명이다. -->
                 <div class="driver-photo">
                     <img src="./img/driver-max.jpg" alt="막스 베르스타펜">
                 </div>
@@ -81,10 +102,13 @@
                     <p class="team">RED BULL RACING</p>
                     <h3>Max Verstappen</h3>
                     <p class="text">압도적인 주행 실력과 강한 멘탈을 갖춘 현역 최강 드라이버.</p>
+                    <!-- 선수 소개 페이지가 준비되면 href의 #을 실제 페이지 주소로 바꾼다. 현재 #은 페이지 맨 위를 가리킨다. -->
                     <a href="#" class="more">자세히보기 →</a>
                 </div>
             </article>
+            <!-- 루이스 카드다. 팀 이름에 ferrari 클래스를 함께 붙여 색 막대를 빨간색으로 만든다. -->
             <article class="driver" id="driver-lewis">
+                <!-- 선수 사진 틀이다. CSS가 너비·비율을 정하고 안의 사진을 가운데에 맞춘다. alt는 사진의 설명이다. -->
                 <div class="driver-photo">
                     <img src="./img/driver-lewis.jpg" alt="루이스 해밀턴">
                 </div>
@@ -92,13 +116,16 @@
                     <p class="team ferrari">FERRARI</p>
                     <h3>Lewis Hamilton</h3>
                     <p class="text">F1의 전설이자, 끊임없이 도전하는 챔피언.</p>
+                    <!-- 선수 소개 페이지가 준비되면 href의 #을 실제 페이지 주소로 바꾼다. 현재 #은 페이지 맨 위를 가리킨다. -->
                     <a href="#" class="more">자세히보기 →</a>
                 </div>
             </article>
         </section>
 
+        <!-- 하단 정보 링크 구역이다. HTML의 항목 순서와 CSS의 grid-area 배치를 함께 확인해 수정한다. -->
         <section id="more">
             <h2 class="title">더 많은 정보</h2>
+            <!-- 타일 배치용 목록이다. 목록의 1~5번째 항목은 CSS의 nth-child(1)~nth-child(5)에 각각 연결된다. 현재 링크 주소 #은 임시 주소다. -->
             <ul class="info-grid">
                 <li><a href="#"><span class="icon">🌐</span><span>F1 공식 홈페이지</span></a></li>
                 <li><a href="#"><span class="icon">🏆</span><span>챔피언 포인트 순위</span></a></li>
@@ -109,10 +136,13 @@
         </section>
     </main>
 
+    <!-- 페이지 끝의 저작권 문구와 화면 오른쪽 아래 TOP 버튼이다. -->
     <footer>
         <p>© 2026 F1 블로그 · 나의 관심사 블로그</p>
+        <!-- TOP은 링크가 아닌 버튼이다. js/app.js에서 클릭 이벤트를 연결해 부드럽게 맨 위로 이동시킨다. -->
         <button type="button" class="top">TOP</button>
     </footer>
+    <!-- 위의 HTML 요소들이 만들어진 뒤 JS를 실행하도록 body의 마지막에 둔다. -->
     <script src="./js/app.js"></script>
 </body>
 </html>

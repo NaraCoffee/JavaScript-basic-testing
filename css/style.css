@@ -1,41 +1,51 @@
-/* =====================================================
-   Grid 26 - 나의 F1 블로그
-   기준 화면 : 1920px, 태블릿과 모바일은 미디어 쿼리 적용
-   배운 것 : flex · grid · position · transition · transform
-             · animation
-   ===================================================== */
+/* Grid 26 화면 구성 안내
+   index.html은 내용과 구역, 이 파일은 모양과 배치, js/app.js는 스크롤·클릭 동작을 담당한다.
+   먼저 큰 화면용 기본 스타일을 쓰고, 파일 아래의 @media에서 작은 화면에 필요한 값만 다시 지정한다.
+   .이름은 class, #이름은 id, 공백은 내부 요소, :hover는 마우스를 올린 상태를 뜻한다.
+   ::before와 ::after는 HTML 태그를 추가하지 않고 만드는 꾸밈 요소다.
+   미디어 쿼리 작성 방식은 수업 자료 testing/24/1/css/media.css를 참고했다.
+*/
 
-/* ---------- 0. 기본 리셋 ---------- */
+/* 브라우저가 기본으로 넣는 바깥·안쪽 여백을 지운다.
+   box-sizing: border-box는 width 안에 padding과 border까지 포함해 크기를 계산한다. */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
+/* 메뉴와 태그 목록에 기본으로 붙는 점이나 번호를 없앤다. */
 ul,
 ol {
     list-style: none;
 }
+/* 링크가 부모 글자색을 따르게 하고, 기본 밑줄을 없앤다. */
 a {
     color: inherit;
     text-decoration: none;
 }
+/* 이미지 아래의 글자 기준선 여백을 없애고, 일반 이미지가 부모 너비를 넘지 않게 한다.
+   선수 사진은 아래의 사진 전용 규칙에서 크기를 따로 지정한다. */
 img {
     display: block;
     max-width: 100%;
 }
+/* 페이지 전체의 기본 글꼴·글자색·배경색이다. 한글 웹폰트는 index.html에서 불러온다. */
 body {
     font-family: "Noto Sans KR", sans-serif;
     color: #1f1f3a;
     background-color: #ffffff;
 }
 
-/* ---------- 1. 상단 배너 : position ---------- */
+/* 맨 위의 큰 배너다. relative는 안에 있는 absolute 요소의 위치 기준을 만든다.
+   배경의 cover는 비율을 유지해 배너를 꽉 채우므로 사진 가장자리가 일부 잘릴 수 있다. */
 header.top {
-    position: relative;                 /* 자식을 absolute로 띄우는 기준 */
+    position: relative;
     height: 600px;
     background: url("../img/banner.jpg") center / cover no-repeat;
 }
-header.top::before {                          /* 글씨가 잘 보이게 어두운 막 */
+/* HTML 태그를 추가하지 않고 배너 위에 어두운 막을 만든다.
+   왼쪽이 더 어두운 그라데이션으로 흰 글씨를 읽기 쉽게 한다. rgba의 마지막 숫자는 불투명도다. */
+header.top::before {
     content: "";
     position: absolute;
     top: 0;
@@ -44,6 +54,9 @@ header.top::before {                          /* 글씨가 잘 보이게 어두�
     height: 100%;
     background: linear-gradient(90deg, rgba(10, 10, 30, 0.85), rgba(10, 10, 30, 0.1) 70%);
 }
+/* 스크롤해도 화면 위에 남는 로고·메뉴 줄이다. fixed는 화면을 기준으로 고정한다.
+   left: 50%로 시작점을 가운데에 놓고, translate(-50%, 0)으로 자기 너비의 절반만큼 되돌려 가운데 정렬한다.
+   flex로 로고와 메뉴를 양끝에 배치한다. 너비 74%는 최대 너비에 닿기 전 좌우 약 13% 여백을 만든다. */
 .top-bar {
     position: fixed;
     top: 0;
@@ -53,11 +66,13 @@ header.top::before {                          /* 글씨가 잘 보이게 어두�
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 74%;                        /* 좌우 여백을 각각 13% 확보 */
+    width: 74%;
     max-width: 1420px;
     padding: 28px 0;
     color: white;
 }
+/* 로고·메뉴 줄 뒤에 화면 전체 너비(100vw)의 반투명 배경을 그린다.
+   z-index: -1은 이 배경을 같은 고정 메뉴 영역의 글자 뒤에 놓는다. transition은 색이 바뀔 때 부드럽게 만든다. */
 .top-bar::before {
     content: "";
     position: absolute;
@@ -70,10 +85,13 @@ header.top::before {                          /* 글씨가 잘 보이게 어두�
     z-index: -1;
     transition: all 0.3s;
 }
+/* app.js가 body에 page-scrolled 클래스를 붙였을 때만 적용한다.
+   100px를 넘게 내려가면 메뉴 배경을 더 진하게 하고 그림자를 보여준다. */
 .page-scrolled .top-bar::before {
     background-color: rgba(15, 15, 30, 0.8);
     box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
 }
+/* 로고 그림과 Grid 26 글씨를 가로로 나란히 놓고 세로 가운데를 맞춘다. gap은 둘 사이 간격이다. */
 .logo {
     display: flex;
     align-items: center;
@@ -81,24 +99,29 @@ header.top::before {                          /* 글씨가 잘 보이게 어두�
     font-size: 26px;
     font-weight: 900;
 }
+/* 로고의 기본 너비와 마우스 효과의 전환 시간을 정한다. */
 .logo img {
     width: 88px;
     transition: all 0.3s;
 }
+/* 로고에 마우스를 올리면 그림을 기울이고 1.1배로 확대한다. */
 .logo:hover img {
     transform: skew(-12deg) scale(1.1);
 }
+/* 메뉴 항목을 가로로 배열한다. gap은 각 메뉴 사이의 간격이다. */
 .menu {
     display: flex;
     gap: 44px;
     font-size: 17px;
     font-weight: normal;
 }
+/* 각 링크의 relative를 기준으로 아래의 밑줄 위치를 잡는다. */
 .menu a {
     position: relative;
     padding-bottom: 6px;
 }
-.menu a::after {                        /* 호버 시 밑줄이 쭉 그려지는 효과 */
+/* 메뉴 아래에 가상 요소로 빨간 밑줄을 만든다. 처음에는 너비가 0이라 보이지 않는다. */
+.menu a::after {
     content: "";
     position: absolute;
     left: 0;
@@ -108,41 +131,48 @@ header.top::before {                          /* 글씨가 잘 보이게 어두�
     background-color: #e10600;
     transition: all 0.3s;
 }
+/* 마우스를 올린 메뉴의 밑줄을 링크 너비만큼 늘린다. */
 .menu a:hover::after {
     width: 100%;
 }
 
-/* 배너 글씨 : 아래에서 올라오는 animation */
+/* 배너 안의 시즌 문구·제목·설명·버튼을 묶는다.
+   top은 배너 높이를 기준으로 하고, translate의 퍼센트는 글 묶음 자신의 크기를 기준으로 이동한다. */
 .hero-text {
     position: absolute;
     z-index: 2;
     top: 52%;
     left: 50%;
-    width: 74%;                        /* 로고·메뉴와 같은 좌우 여백 */
+    width: 74%;
     max-width: 1420px;
     transform: translate(-50%, -50%);
     color: white;
 }
-/* 23/3의 퍼센트 키프레임: 시작 구간을 유지해 순서대로 등장 */
 
+/* 배너의 큰 제목이다. 여기에서는 등장 애니메이션 이름과 전체 시간을 연결한다.
+   아래에 같은 선택자가 다시 나오면 그곳의 글자 크기 설정도 함께 적용된다. */
 .hero-text h1 {
     animation-name: fadeUpTitle;
     animation-duration: 0.95s;
 }
+/* 배너 설명 문장이다. 처음 규칙은 등장 효과, 뒤의 같은 선택자 규칙은 글자 모양을 담당한다. */
 .hero-text .desc {
     animation-name: fadeUpDescription;
     animation-duration: 1.1s;
 }
+/* 배너 안의 순위 보기 버튼에 등장 애니메이션을 연결한다. */
 .hero-text .btn {
     animation-name: fadeUpButton;
     animation-duration: 1.25s;
 }
+/* 쉼표로 묶은 세 선택자 모두에 같은 너비와 아래 여백을 적용한다. */
 .hero-text .sub,
 .hero-text h1,
 .hero-text .desc {
     width: 100%;
     margin-bottom: 16px;
 }
+/* 2026 F1 시즌 문구의 크기·자간·색이다. 이 문구에는 등장 애니메이션을 연결하지 않았다. */
 .hero-text .sub {
     font-size: 20px;
     letter-spacing: 4px;
@@ -156,6 +186,8 @@ header.top::before {                          /* 글씨가 잘 보이게 어두�
     font-size: 16px;
     color: #e6e6f0;
 }
+/* 순위 보기 링크를 여백과 배경이 있는 버튼처럼 꾸민다.
+   inline-block은 글 길이에 맞는 너비를 가지면서 padding을 적용할 수 있게 한다. */
 .btn {
     display: inline-block;
     vertical-align: top;
@@ -168,10 +200,13 @@ header.top::before {                          /* 글씨가 잘 보이게 어두�
     font-weight: 700;
     transition: all 0.3s;
 }
+/* 버튼에 마우스를 올리면 색을 진하게 하고 3px 위로 이동한다. */
 .btn:hover {
     background-color: #b80500;
     transform: translateY(-3px);
 }
+/* 아래에서 위로 올라오면서 나타나는 움직임의 기본 예시다.
+   현재 요소에는 fadeUp이라는 이름을 직접 연결하지 않고 아래의 개별 이름들을 사용한다. */
 @keyframes fadeUp {
     0% {
         opacity: 0;
@@ -183,51 +218,63 @@ header.top::before {                          /* 글씨가 잘 보이게 어두�
     }
 }
 
-/* 전체 시간에서 대기 시간을 뺀 실제 등장 시간은 각각 0.8초 */
+/* 제목을 0.15초 기다린 뒤 0.8초 동안 나타나게 한다.
+   15.7894736842%는 전체 0.95초 중 대기 시간 0.15초의 비율이다. 100%에서 원래 위치가 된다. */
 @keyframes fadeUpTitle {
     0% { opacity: 0; transform: translateY(24px); }
     15.7894736842% { opacity: 0; transform: translateY(24px); }
     100% { opacity: 1; transform: translateY(0); }
 }
+/* 설명 문장을 0.3초 기다린 뒤 0.8초 동안 나타나게 한다.
+   27.2727272727%는 전체 1.1초 중 대기 시간의 비율이다. opacity: 0은 완전 투명, 1은 완전 불투명이다. */
 @keyframes fadeUpDescription {
     0% { opacity: 0; transform: translateY(24px); }
     27.2727272727% { opacity: 0; transform: translateY(24px); }
     100% { opacity: 1; transform: translateY(0); }
 }
+/* 버튼을 0.45초 기다린 뒤 0.8초 동안 나타나게 한다.
+   전체 1.25초의 36%까지 투명 상태를 유지하므로 제목·설명·버튼이 차례로 등장한다. */
 @keyframes fadeUpButton {
     0% { opacity: 0; transform: translateY(24px); }
     36% { opacity: 0; transform: translateY(24px); }
     100% { opacity: 1; transform: translateY(0); }
 }
 
-/* ---------- 2. 본문 공통 ---------- */
+/* 공지·순위·선수 소개·정보 타일을 감싸는 본문이다.
+   최대 너비 1190px 안에 좌우 padding 20px이 포함되어, 큰 화면의 카드 너비는 1150px이 된다. margin: 0 auto는 가운데 정렬이다. */
 main {
-    max-width: 1190px;                  /* 카드 폭 1150 + 좌우 여백 */
+    max-width: 1190px;
     margin: 0 auto;
     padding: 0 20px 170px;
 }
+/* 본문의 각 구역 제목에 공통으로 쓰는 크기와 위·아래 간격이다. */
 .title {
     margin: 60px 0 44px;
     font-size: 26px;
     font-weight: 900;
 }
 
-/* ---------- 3. 공지 카드 : flex + 배너와 겹치기 ---------- */
+/* 프로필 아이콘·소개·태그를 한 줄에 놓는 공지 카드다.
+   relative와 top: -80px로 원래 위치보다 80px 올려 배너와 겹친다. 이동해도 문서에서 원래 차지하던 공간은 남는다. */
 .notice {
     position: relative;
     z-index: 3;
     display: flex;
     align-items: center;
     gap: 24px;
-    top: -80px;                         /* 22/23: 위치로 배너 위에 겹침 */
+    top: -80px;
     padding: 36px 48px;
     border-radius: 64px;
     background-color: white;
     box-shadow: 0 10px 34px rgba(20, 20, 60, 0.15);
 }
+/* 현재 1위 구역의 제목에만 적용하는 위 여백이다.
+   공지 카드를 위로 이동한 뒤 남는 간격을 이 값으로 조절한다. */
 #champion .title {
-    margin-top: 2px;                    /* 공지 카드를 올린 58px만큼 간격 보정 */
+    margin-top: 2px;
 }
+/* 원형 프로필 아이콘이다. flex: 0 0 96px은 늘어나거나 줄어들지 않고 96px 공간을 차지한다는 뜻이다.
+   높이와 line-height를 같게 해서 이모지를 세로 가운데에 놓는다. */
 .avatar {
     flex: 0 0 96px;
     width: 96px;
@@ -238,23 +285,28 @@ main {
     line-height: 96px;
     font-size: 44px;
 }
+/* 아이콘·태그를 배치하고 남은 가로 공간을 소개 글이 사용한다. */
 .notice-text {
     flex: 1;
 }
+/* 공지 카드의 작성자 이름을 빨간색으로 강조한다. */
 .notice-text h2 {
     font-size: 22px;
     color: #e10600;
 }
+/* 작성자 소개 문장의 위 간격, 글자 크기와 줄 간격이다. line-height: 1.5는 글자 크기의 1.5배다. */
 .notice-text p {
     margin-top: 6px;
     font-size: 15px;
     line-height: 1.5;
     color: #555;
 }
+/* 관심사 태그들을 가로로 배열한다. */
 .tags {
     display: flex;
     gap: 10px;
 }
+/* 태그 하나의 테두리·배경·둥근 모서리를 정한다. nowrap은 태그 안의 글자가 줄 바뀌지 않게 한다. */
 .tags li {
     padding: 6px 16px;
     border: 1px solid #f3b4b4;
@@ -265,7 +317,7 @@ main {
     white-space: nowrap;
 }
 
-/* ---------- 4. 현재 1위 : flex ---------- */
+/* 현재 1위 선수의 사진·이름·점수를 가로로 배치하는 카드다. */
 .leader {
     display: flex;
     align-items: center;
@@ -276,11 +328,14 @@ main {
     box-shadow: 0 10px 34px rgba(20, 20, 60, 0.12);
     transition: all 0.3s;
 }
+/* 마우스를 올린 1위 카드를 조금 띄우고 그림자를 진하게 만든다. */
 .leader:hover {
     transform: translateY(-6px);
     box-shadow: 0 16px 40px rgba(20, 20, 60, 0.2);
 }
-/* 사진은 감싸는 요소에서 자르고, 원래 비율대로 가운데 배치 */
+
+/* 1위 선수 사진을 담는 틀이다. overflow: hidden은 틀 밖으로 나온 사진을 잘라낸다.
+   relative는 안쪽 사진의 absolute 위치 기준이 된다. */
 .leader-photo {
     position: relative;
     flex: 0 0 187px;
@@ -289,6 +344,8 @@ main {
     border-radius: 18px;
     overflow: hidden;
 }
+/* 데스크톱에서는 사진 높이를 틀에 맞추고 원래 비율을 유지한다.
+   사진을 중앙에 놓아 넘치는 부분을 양옆에서 잘라낸다. 모바일에서는 아래 규칙이 너비 기준으로 바꾼다. */
 .leader-photo img {
     position: absolute;
     top: 50%;
@@ -298,19 +355,25 @@ main {
     max-width: 500px;
     transform: translate(-50%, -50%);
 }
+/* 이름·팀 설명이 남은 공간을 사용하게 하고 왼쪽 위치를 조절한다.
+   11.5vw는 화면 너비의 11.5%다. 작은 화면에서는 아래 미디어 쿼리가 이 여백을 줄이거나 없앤다. */
 .leader-info {
     flex: 1;
-    margin-left: 11.5vw;                /* 선수 소개 카드의 글 시작 위치와 맞춤 */
+    margin-left: 11.5vw;
 }
+/* 1위 선수 이름의 크기와 굵기다. */
 .leader-info h3 {
     font-size: 38px;
     font-weight: 900;
 }
+/* 1위 선수의 팀 이름에 적용하는 간격·크기·색이다. */
 .leader-info p {
     margin-top: 8px;
     font-size: 15px;
     color: #666;
 }
+/* 점수 숫자를 빨간색으로 강조하고 pulse라는 반복 애니메이션을 연결한다.
+   infinite는 계속 반복, alternate는 정방향·역방향을 번갈아 실행한다. 각 방향에 1.6초가 걸린다. */
 .points {
     font-size: 40px;
     font-weight: 900;
@@ -320,15 +383,17 @@ main {
     animation-iteration-count: infinite;
     animation-direction: alternate;
 }
+/* 같은 점수 영역 안에서도 PTS 단위 글자만 작게 만든다. */
 .points span {
     font-size: 20px;
 }
+/* 점수 크기를 1배에서 1.1배로 확대한다. alternate 설정 때문에 다음에는 다시 작아진다. */
 @keyframes pulse {
     0% { transform: scale(1); }
     100% { transform: scale(1.1); }
 }
 
-/* ---------- 5. 선수 소개 : flex + order (18/1) ---------- */
+/* 선수 사진과 설명을 가로로 나란히 놓는 공통 카드다. 모바일에서는 display: block으로 세로 배치한다. */
 .driver {
     display: flex;
     align-items: center;
@@ -340,16 +405,21 @@ main {
     box-shadow: 0 10px 34px rgba(20, 20, 60, 0.12);
     transition: all 0.3s;
 }
+/* 선수 카드 전체를 위로 조금 이동하고 그림자를 더한다. */
 .driver:hover {
     transform: translateY(-6px);
     box-shadow: 0 16px 40px rgba(20, 20, 60, 0.2);
 }
+/* driver와 reverse 클래스를 둘 다 가진 카드다. 가로 공간이 부족할 때 항목들을 오른쪽 끝 기준으로 맞춘다. */
 .driver.reverse {
     justify-content: flex-end;
 }
+/* 공백 앞의 .driver.reverse는 두 클래스를 가진 같은 요소이고, 공백 뒤는 그 안의 사진 틀이다.
+   order: 1로 사진을 기본 order: 0인 설명 뒤에 놓아, 데스크톱의 막스 카드만 사진이 오른쪽에 온다. */
 .driver.reverse .driver-photo {
-    order: 1;                          /* 두 번째 카드만 사진을 오른쪽으로 */
+    order: 1;
 }
+/* 선수 사진의 크기·비율·둥근 모서리를 관리하는 틀이다. 데스크톱에서는 400px 너비를 차지한다. */
 .driver-photo {
     position: relative;
     flex: 0 0 400px;
@@ -359,11 +429,14 @@ main {
     overflow: hidden;
     transition: all 0.4s;
 }
+/* 빈 가상 요소의 세로 여백으로 사진 틀 높이를 만든다.
+   padding-top의 퍼센트는 가로 너비가 기준이므로, 62.5%는 가로 8 : 세로 5 비율이다. */
 .driver-photo::before {
     content: "";
     display: block;
-    padding-top: 62.5%;                 /* 가로 8 : 세로 5 */
+    padding-top: 62.5%;
 }
+/* 원본 사진을 비율대로 가운데 배치한다. 실제 잘라내기는 부모의 overflow: hidden이 담당한다. */
 .driver-photo img {
     position: absolute;
     top: 50%;
@@ -373,15 +446,19 @@ main {
     max-width: 1000px;
     transform: translate(-50%, -50%);
 }
+/* 선수 카드에 마우스를 올리면 그 카드의 사진 틀만 1.03배 확대한다. */
 .driver:hover .driver-photo {
     transform: scale(1.03);
 }
+/* 팀·선수 이름·소개·링크를 세로로 쌓는다. flex: 1은 사진을 놓고 남은 가로 공간을 사용한다. */
 .driver-info {
     flex: 1;
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
+/* 팀 이름의 글씨와 왼쪽 색 막대가 들어갈 여백이다.
+   글자색은 color, 왼쪽 막대 색은 아래 ::before의 background-color에서 바꾼다. */
 .team {
     position: relative;
     padding-left: 13px;
@@ -390,6 +467,7 @@ main {
     letter-spacing: 1px;
     color: #888;
 }
+/* 팀 이름 왼쪽에 가상 요소로 3px 세로 막대를 그린다. 기본색은 메르세데스의 청록색이다. */
 .team::before {
     content: "";
     position: absolute;
@@ -399,17 +477,23 @@ main {
     height: 100%;
     background-color: #00d2be;
 }
+/* reverse 카드 안의 팀 막대만 레드불용 색으로 바꾼다. */
 .driver.reverse .team::before { background-color: #ff3b5c; }
+/* team과 ferrari 클래스를 함께 가진 팀 이름의 막대를 빨간색으로 바꾼다. */
 .team.ferrari::before { background-color: #e10600; }
+/* 선수 소개 카드의 선수 이름에 적용한다. */
 .driver-info h3 {
     font-size: 36px;
     font-weight: 900;
 }
+/* 선수 소개 본문에 적용한다. 줄 간격을 넓혀 여러 줄을 읽기 쉽게 한다. */
 .driver-info .text {
     font-size: 16px;
     line-height: 1.6;
     color: #555;
 }
+/* 자세히보기 링크의 글씨와 위치다. flex 세로 배치 안에서 align-self: flex-end는 이 링크를 오른쪽에 놓는다.
+   링크 주소와 보이는 글자는 index.html에서 수정한다. */
 .more {
     align-self: flex-end;
     margin-top: 10px;
@@ -421,16 +505,19 @@ main {
     cursor: pointer;
     transition: all 0.3s;
 }
+/* 자세히보기 링크에 마우스를 올리면 빨간색으로 바뀌고 오른쪽으로 조금 움직인다. */
 .more:hover {
     color: #e10600;
     transform: translate(6px, 0);
 }
 
-/* ---------- 6. 더 많은 정보 : grid ---------- */
+/* 하단 정보 링크 구역이다. 본문 너비를 사용해 선수 카드의 양끝과 맞춘다. */
 #more {
-    max-width: 100%;                    /* 선수 소개 카드와 같은 전체 너비 */
+    max-width: 100%;
     margin: 0 auto;
 }
+/* 정보 타일을 같은 너비의 4열로 배치한다. repeat(4, 1fr)은 남는 너비를 4등분한다.
+   같은 이름을 이어 쓴 칸은 하나의 타일이 차지한다. home과 news는 2칸, racer는 오른쪽에서 2줄을 차지한다. */
 .info-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -439,14 +526,22 @@ main {
         "video news news  racer";
     gap: 16px;
 }
+/* HTML에서 첫 번째 li를 home 영역에 놓는다. 아래 숫자는 목록의 작성 순서다. */
 .info-grid li:nth-child(1) { grid-area: home; }
+/* 두 번째 타일인 포인트 순위를 point 영역에 놓는다. */
 .info-grid li:nth-child(2) { grid-area: point; }
+/* 세 번째 타일인 레이서 순위를 racer 영역에 놓는다. 화면상 위치는 영역 배치가 결정한다. */
 .info-grid li:nth-child(3) { grid-area: racer; }
+/* 네 번째 타일인 유튜브 링크를 video 영역에 놓는다. */
 .info-grid li:nth-child(4) { grid-area: video; }
+/* 다섯 번째 타일인 뉴스 링크를 news 영역에 놓는다. */
 .info-grid li:nth-child(5) { grid-area: news; }
+/* 타일의 최소 높이다. 내용이 많으면 이 값보다 커질 수 있다. */
 .info-grid li {
     min-height: 160px;
 }
+/* 타일 안의 링크를 전체 높이로 채우고 아이콘·글씨를 가운데에 세로로 배치한다.
+   .info-grid와 a 사이의 공백은 안에 있는 a를 뜻한다. .info-grid-a라고 쓰면 다른 클래스가 되어 적용되지 않는다. */
 .info-grid a {
     display: flex;
     flex-direction: column;
@@ -461,10 +556,12 @@ main {
     font-weight: normal;
     transition: all 0.3s;
 }
+/* 정보 타일을 가리키면 배경을 밝게 하고 위로 띄우면서 조금 확대한다. */
 .info-grid a:hover {
     background-color: #302d58;
     transform: translateY(-6px) scale(1.03);
 }
+/* 정보 타일 안의 동그란 이모지 배경이다. 같은 height와 line-height로 세로 중심을 맞춘다. */
 .icon {
     width: 46px;
     height: 46px;
@@ -475,7 +572,7 @@ main {
     font-size: 20px;
 }
 
-/* ---------- 7. 푸터 ---------- */
+/* 페이지 맨 아래의 저작권 문구와 남색 배경이다. */
 footer {
     padding: 32px 20px;
     background-color: #1f1f4a;
@@ -484,7 +581,8 @@ footer {
     color: #b9b9d6;
 }
 
-/* ---------- 8. TOP 버튼 : position fixed ---------- */
+/* footer 안의 top 클래스 버튼만 선택한다. header.top과 이름이 같아도 이 선택자로 구분한다.
+   fixed의 right·bottom은 화면 오른쪽·아래쪽에서 떨어지는 거리다. 클릭 동작은 app.js가 연결한다. */
 footer .top {
     position: fixed;
     right: 40px;
@@ -507,25 +605,33 @@ footer .top {
     box-shadow: 0 6px 18px rgba(225, 6, 0, 0.4);
     transition: all 0.3s;
 }
+/* TOP 버튼을 가리켰을 때의 배경과 이동 효과다. */
 footer .top:hover {
     background-color: #b80500;
     transform: translateY(-6px);
 }
+/* app.js가 실행되어 body에 js-enabled가 붙으면 TOP 버튼을 기본적으로 숨긴다.
+   visibility: hidden은 보이지 않게 하고 키보드 초점도 받지 않게 한다. opacity는 보이는 정도를 정한다. */
 .js-enabled footer .top {
     visibility: hidden;
     opacity: 0;
     transform: translateY(50px);
 }
+/* body에 js-enabled와 page-scrolled가 함께 붙으면 TOP 버튼을 표시하고 원래 위치로 올린다. */
 .js-enabled.page-scrolled footer .top {
     visibility: visible;
     opacity: 1;
     transform: translateY(0);
 }
+/* 표시된 TOP 버튼의 마우스 효과다. 더 구체적인 선택자로 위의 transform 설정과 함께 동작시킨다. */
 .js-enabled.page-scrolled footer .top:hover {
     transform: translateY(-6px);
 }
 
+/* 작은 데스크톱: 화면 너비가 1199px 이하일 때 아래 설정을 덮어쓴다.
+   899px와 599px 이하의 화면에도 이 규칙이 먼저 적용된다. */
 @media screen and (max-width: 1199px) {
+    /* 작은 데스크톱에서는 좌우 여백을 줄여 로고·메뉴와 배너 문구가 쓸 공간을 넓힌다. */
     .top-bar,
     .hero-text {
         width: 90%;
@@ -541,11 +647,13 @@ footer .top:hover {
         gap: 28px;
         font-size: 15px;
     }
+    /* 공지 카드의 간격·안쪽 여백·둥근 정도를 줄여 작은 화면에 맞춘다. */
     .notice {
         gap: 16px;
         padding: 28px 32px;
         border-radius: 40px;
     }
+    /* 아이콘 너비와 flex의 기준 너비를 함께 줄인다. 한쪽만 바꾸면 예상과 다른 공간을 차지할 수 있다. */
     .avatar {
         flex: 0 0 72px;
         width: 72px;
@@ -560,15 +668,18 @@ footer .top:hover {
         padding: 6px 12px;
         font-size: 12px;
     }
+    /* 1위 카드 내부 간격과 여백을 줄인다. */
     .leader {
         gap: 24px;
         padding: 24px;
     }
+    /* 1위 사진 틀을 줄인다. 높이도 함께 조절해 데스크톱과 비슷한 비율을 유지한다. */
     .leader-photo {
         flex: 0 0 160px;
         width: 160px;
         height: 216px;
     }
+    /* 큰 화면용 11.5vw 여백을 4vw로 줄여 이름과 점수가 밀려나지 않게 한다. */
     .leader-info {
         margin-left: 4vw;
     }
@@ -582,6 +693,7 @@ footer .top:hover {
         gap: 28px;
         padding: 24px;
     }
+    /* 선수 사진 열을 400px에서 320px로 줄여 설명 공간을 확보한다. */
     .driver-photo {
         flex: 0 0 320px;
         width: 320px;
@@ -591,7 +703,10 @@ footer .top:hover {
     }
 }
 
+/* 태블릿: 화면 너비가 899px 이하이면 이 규칙도 함께 적용한다.
+   같은 선택자에서 같은 속성이 다시 나오면 더 아래의 값이 우선하므로, 1199px 설정 중 필요한 부분만 바꾼다. */
 @media screen and (max-width: 899px) {
+    /* 태블릿 화면에서는 배너 높이를 400px로 줄인다. */
     header.top {
         height: 400px;
     }
@@ -607,14 +722,17 @@ footer .top:hover {
     main {
         padding-bottom: 80px;
     }
+    /* flex-wrap으로 태그가 다음 줄로 내려갈 수 있게 한다. 카드는 배너 위로 60px 겹치게 올린다. */
     .notice {
         flex-wrap: wrap;
         top: -60px;
         padding: 24px;
     }
+    /* min-width: 0은 flex 항목이 긴 글의 최소 너비에 묶이지 않고 좁아질 수 있게 한다. */
     .notice-text {
         min-width: 0;
     }
+    /* 태그가 한 줄 전체 너비를 사용하게 하고, 소개 글 시작점에 맞춰 왼쪽을 들여 쓴다. */
     .tags {
         width: 100%;
         padding-left: 88px;
@@ -629,6 +747,7 @@ footer .top:hover {
         width: 140px;
         height: 188px;
     }
+    /* 사진과 이름 사이의 추가 들여쓰기를 없애고 글 영역이 좁아질 수 있게 한다. */
     .leader-info {
         margin-left: 0;
         min-width: 0;
@@ -649,6 +768,7 @@ footer .top:hover {
         gap: 24px;
         padding: 20px;
     }
+    /* 태블릿에서는 사진 열을 240px로 줄인다. 가로형 카드 배치는 계속 사용한다. */
     .driver-photo {
         flex: 0 0 240px;
         width: 240px;
@@ -659,6 +779,7 @@ footer .top:hover {
     .driver-info .text {
         font-size: 14px;
     }
+    /* 정보 타일을 2열로 바꾼다. racer를 마지막 줄의 두 칸에 적어 레이서 순위가 전체 너비를 차지한다. */
     .info-grid {
         grid-template-columns: repeat(2, 1fr);
         grid-template-areas:
@@ -675,10 +796,14 @@ footer .top:hover {
     }
 }
 
+/* 모바일: 화면 너비가 599px 이하일 때 마지막으로 적용한다. Frame 200의 375px 화면을 기준으로 맞췄다.
+   위의 기본·1199px·899px 설정을 이어받으며, 여기에서 다시 적은 속성만 바꾼다. */
 @media screen and (max-width: 599px) {
+    /* 모바일 배너 높이는 300px다. 공지 카드는 위의 899px 규칙을 이어받아 이 배너에 60px 겹친다. */
     header.top {
         height: 300px;
     }
+    /* 화면 너비에서 40px을 빼 가운데 정렬하므로 왼쪽·오른쪽에 각각 20px 여백이 생긴다. */
     .top-bar,
     .hero-text {
         width: calc(100% - 40px);
@@ -686,6 +811,7 @@ footer .top:hover {
     .top-bar {
         padding: 20px 0;
     }
+    /* 모바일에서도 로고 그림과 Grid 26 글씨를 함께 보여주도록 간격과 글자를 줄인다. */
     .logo {
         gap: 6px;
         font-size: 12px;
@@ -693,6 +819,7 @@ footer .top:hover {
     .logo img {
         width: 52px;
     }
+    /* 기존 네 메뉴가 한 줄에 들어가도록 글자와 항목 사이 간격을 줄인다. */
     .menu {
         gap: 18px;
         font-size: 11px;
@@ -717,6 +844,7 @@ footer .top:hover {
         padding: 8px 16px;
         font-size: 12px;
     }
+    /* 모바일 본문의 좌우 여백은 16px이다. 375px 화면에서는 카드 너비가 343px이 된다. */
     main {
         padding: 0 16px 32px;
     }
@@ -724,6 +852,7 @@ footer .top:hover {
         margin: 40px 0 16px;
         font-size: 16px;
     }
+    /* 모바일 공지 카드의 안쪽 여백과 둥근 모서리다. top: -60px은 바로 위 미디어 쿼리에서 이어받는다. */
     .notice {
         gap: 12px;
         padding: 16px;
@@ -743,28 +872,34 @@ footer .top:hover {
         font-size: 12px;
         line-height: 1.6;
     }
+    /* Frame 200의 모바일 배치에 맞춰 관심사 태그 줄을 숨긴다. */
     .tags {
         display: none;
     }
+    /* 모바일에서 현재 1위 제목 위에 붙는 추가 여백을 없앤다. */
     #champion .title {
         margin-top: 0;
     }
+    /* 모바일 1위 카드는 사진 왼쪽·설명 오른쪽을 유지한다. relative는 오른쪽 아래 점수의 위치 기준이다. */
     .leader {
         position: relative;
         gap: 14px;
         padding: 12px;
         border-radius: 20px;
     }
+    /* 작은 화면에서는 1위 사진을 110 × 144px 틀에 넣는다. */
     .leader-photo {
         flex: 0 0 110px;
         width: 110px;
         height: 144px;
         border-radius: 12px;
     }
+    /* 모바일에서는 사진의 가로를 틀에 맞추고 세로는 원래 비율로 계산한다. */
     .leader-photo img {
         width: 100%;
         height: auto;
     }
+    /* 설명 아래에 점수가 들어갈 공간을 확보해 글과 숫자가 겹치지 않게 한다. */
     .leader-info {
         padding-bottom: 28px;
     }
@@ -776,6 +911,7 @@ footer .top:hover {
         font-size: 10px;
         line-height: 1.5;
     }
+    /* 점수만 카드의 오른쪽 아래에 고정한다. 위치 기준은 relative가 있는 .leader다. */
     .points {
         position: absolute;
         right: 16px;
@@ -785,27 +921,34 @@ footer .top:hover {
     .points span {
         font-size: 10px;
     }
+    /* 모바일 선수 카드는 flex 대신 일반 블록 배치를 사용한다.
+       HTML에 사진이 먼저 있으므로 세 선수 모두 사진 위·설명 아래가 된다. reverse의 order는 flex가 아니어서 배치에 영향을 주지 않는다. */
     .driver {
         display: block;
         margin-bottom: 16px;
         padding: 16px;
         border-radius: 16px;
     }
+    /* 사진 틀을 카드 내부 너비에 꽉 맞춘다. 바깥 카드의 padding은 별도로 남는다. */
     .driver-photo {
         width: 100%;
         border-radius: 12px;
     }
+    /* 실제 사진의 비율(1000 × 563)에 맞춰 높이를 가로의 56.3%로 만든다. */
     .driver-photo::before {
         padding-top: 56.3%;
     }
+    /* 사진 너비를 틀에 맞추고 높이를 자동 계산해 모바일에서 원래 사진 비율을 유지한다. */
     .driver-photo img {
         width: 100%;
         height: auto;
     }
+    /* 설명도 일반 블록으로 바꾸고 사진 아래에 12px 간격을 둔다. */
     .driver-info {
         display: block;
         margin-top: 12px;
     }
+    /* 사진 아래 팀 이름의 글자와 색 막대 공간을 모바일 크기로 줄인다. */
     .team {
         margin-bottom: 4px;
         padding-left: 8px;
@@ -822,14 +965,17 @@ footer .top:hover {
         font-size: 12px;
         line-height: 1.6;
     }
+    /* 설명 영역이 일반 블록이므로 자세히보기 링크가 왼쪽에 놓인다. 위 간격을 두고 글 길이에 맞춰 표시한다. */
     .more {
         display: inline-block;
         margin-top: 16px;
         font-size: 10px;
     }
+    /* 899px 이하에서 정한 2열·3줄 배치를 이어받고 타일 사이 간격만 줄인다. */
     .info-grid {
         gap: 8px;
     }
+    /* 모바일 정보 타일의 최소 높이는 72px이다. */
     .info-grid li {
         min-height: 72px;
     }
@@ -849,6 +995,7 @@ footer .top:hover {
         font-size: 10px;
         line-height: 1.6;
     }
+    /* 모바일 TOP 버튼을 44px로 줄이고 화면 가장자리에서 16px 떨어뜨린다. */
     footer .top {
         right: 16px;
         bottom: 16px;
