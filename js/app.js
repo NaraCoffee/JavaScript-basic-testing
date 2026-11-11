@@ -20,26 +20,3 @@ topButton.addEventListener('click', function () {
         behavior: 'smooth'
     });
 });
-
-// 배열과 반복문으로 선수별 버튼에 같은 클릭 동작을 연결한다.
-const drivers = [
-    document.querySelector('#driver-kimi'),
-    document.querySelector('#driver-max'),
-    document.querySelector('#driver-lewis')
-];
-const detailOpen = [false, false, false];
-
-for (let i = 0; i < drivers.length; i++) {
-    const moreButton = drivers[i].querySelector('.more');
-
-    moreButton.addEventListener('click', function () {
-        drivers[i].classList.toggle('detail-open');
-        detailOpen[i] = !detailOpen[i];
-
-        if (detailOpen[i]) {
-            moreButton.textContent = '접기 ↑';
-        } else {
-            moreButton.textContent = '자세히보기 →';
-        }
-    });
-}

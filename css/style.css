@@ -384,7 +384,7 @@ main {
 }
 .team {
     position: relative;
-    padding-left: 13px;                 /* 원래 여백 10px + 색 막대 3px */
+    padding-left: 13px;
     font-size: 14px;
     font-weight: 700;
     letter-spacing: 1px;
@@ -424,23 +424,6 @@ main {
 .more:hover {
     color: #e10600;
     transform: translate(6px, 0);
-}
-.driver-detail {
-    display: none;
-    padding: 16px;
-    border-radius: 12px;
-    background-color: #f5f3ff;
-    font-size: 14px;
-    line-height: 1.6;
-    color: #555;
-}
-.driver-detail .detail-title {
-    margin-bottom: 6px;
-    font-weight: 700;
-    color: #1f1f4a;
-}
-.driver.detail-open .driver-detail {
-    display: block;
 }
 
 /* ---------- 6. 더 많은 정보 : grid ---------- */
