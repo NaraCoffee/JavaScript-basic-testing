@@ -1004,3 +1004,59 @@ footer .top:hover {
         font-size: 11px;
     }
 }
+
+/* Frame 199의 탭 메뉴. 5번 수업의 flex와 on 클래스 방식으로 구성한다. */
+#guide { margin-bottom: 60px; }
+.guide-tabs {
+    display: flex;
+    justify-content: center;
+    width: 480px;
+    max-width: 100%;
+    margin: 0 auto 20px;
+    padding: 4px;
+    border: 1px solid #e5e5ed;
+    border-radius: 30px;
+    background-color: #fff;
+}
+.guide-tabs li { width: 25%; }
+.guide-tabs button { width: 100%; padding: 10px 0; border: none; border-radius: 30px; background-color: #fff; color: #888; font-family: inherit; font-size: 14px; cursor: pointer; }
+.guide-tabs li.on button { background-color: #1e1b4b; color: #fff; }
+.guide-content { display: flex; gap: 20px; height: 320px; padding: 16px; border-radius: 24px; background-color: #fff; box-shadow: 0 4px 4px rgba(0,0,0,0.2); }
+.guide-content li { position: relative; flex: 1; display: flex; flex-direction: column; justify-content: flex-end; gap: 16px; padding: 24px 20px; border-radius: 12px; background-color: #f5f3ff; overflow: hidden; transition: flex 0.4s, background-color 0.4s; }
+.guide-content .num { position: absolute; top: 20px; right: 20px; font-size: 18px; font-weight: bold; color: #9181d5; }
+.guide-content .badge { position: absolute; top: 20px; left: 20px; padding: 4px 16px; border-radius: 20px; background-color: #ffd45c; color: #1e1b4b; font-size: 12px; font-weight: bold; opacity: 0; transform: translateY(-10px); transition: 0.4s; }
+.guide-content .thumb { width: 72px; height: 72px; display: flex; align-items: center; justify-content: center; border-radius: 4px; background-color: #fff; font-size: 48px; opacity: 0; transform: scale(0.6); transition: 0.4s; }
+.guide-content h3 { font-size: 24px; color: #1e1b4b; }
+.guide-content p { font-size: 13px; line-height: 1.5; color: #666; }
+.guide-content li.on { flex: 1.6; background-color: #1e1b4b; }
+.guide-content li.on .badge, .guide-content li.on .thumb { opacity: 1; transform: none; }
+.guide-content li.on h3 { color: #fff; }
+.guide-content li.on p { color: #c7c2ff; }
+.guide-content li.on .num { color: #fff; }
+/* 작은 화면에서는 탭을 두 줄, 카드를 세로로 배치한다. */
+@media (max-width: 899px) {
+    .guide-tabs button { padding: 10px 0; }
+    .guide-content { gap: 12px; padding: 12px; }
+    .guide-content li { padding: 20px 12px; }
+    .guide-content h3 { font-size: 18px; }
+    .guide-content p { font-size: 11px; }
+}
+@media (max-width: 599px) {
+    #guide { margin-bottom: 40px; }
+    .guide-tabs { flex-wrap: wrap; }
+    .guide-tabs li { width: 50%; }
+    .guide-tabs button { width: 100%; font-size: 12px; }
+    .guide-content { height: auto; flex-direction: column; box-shadow: none; padding: 12px; gap: 16px; }
+    .guide-content li { flex: auto; padding: 24px 16px 16px; min-height: 104px; }
+    .guide-content li.on { flex: auto; min-height: 252px; }
+    .guide-content .thumb { display: none; }
+    .guide-content p { display: none; }
+    .guide-content li.on .thumb { display: flex; }
+    .guide-content li.on p { display: block; }
+    .guide-content .badge { top: 16px; left: 16px; }
+    .guide-content .num { top: 16px; right: 16px; }
+    .guide-content h3 { font-size: 20px; }
+    .guide-content p { font-size: 12px; }
+}
+/* 카드 전체가 클릭 가능한 영역임을 마우스 모양으로 알려준다. */
+.guide-content li { cursor: pointer; }

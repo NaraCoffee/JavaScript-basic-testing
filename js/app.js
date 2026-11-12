@@ -40,3 +40,33 @@ topButton.addEventListener('click', function () {
         behavior: 'smooth'
     });
 });
+
+// 5번 수업 예제와 같이 탭과 카드를 순서대로 연결한다.
+const tabs = document.querySelectorAll('.guide-tabs li');
+const contents = document.querySelectorAll('.guide-content li');
+init(0);
+// num번째 버튼과 카드만 선택 상태로 만든다.
+function init(num) {
+    tabs[num].classList.add('on');
+    contents[num].classList.add('on');
+}
+// 선택하기 전에 모든 항목의 on 클래스를 지운다.
+function reset() {
+    for (let i = 0; i < tabs.length; i++) {
+        tabs[i].classList.remove('on');
+        contents[i].classList.remove('on');
+    }
+}
+tabs.forEach(function (tab, i) {
+    tab.addEventListener('click', function () {
+        reset();
+        init(i);
+    });
+});
+// 카드도 탭과 같은 순서로 연결해, 카드 안의 글자나 이모지를 눌러도 함께 선택한다.
+contents.forEach(function (content, i) {
+    content.addEventListener('click', function () {
+        reset();
+        init(i);
+    });
+});
