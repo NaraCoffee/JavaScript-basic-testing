@@ -1060,3 +1060,14 @@ footer .top:hover {
 }
 /* 카드 전체가 클릭 가능한 영역임을 마우스 모양으로 알려준다. */
 .guide-content li { cursor: pointer; }
+
+/* 탭과 카드에 마우스를 올렸을 때 선택 가능한 영역을 강조한다. */
+.guide-tabs button { transition: background-color 0.3s, color 0.3s; }
+.guide-tabs button:hover { background-color: #1e1b4b; color: #fff; }
+.guide-content li { transition: flex 0.4s, background-color 0.4s, transform 0.3s, box-shadow 0.3s; }
+.guide-content li:hover {
+    background-color: #ede9fe;
+    transform: translateY(-6px);
+    box-shadow: 0 10px 34px rgba(20, 20, 60, 0.12);
+}
+.guide-content li.on:hover { background-color: #1e1b4b; }
