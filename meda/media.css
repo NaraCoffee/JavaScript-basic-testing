@@ -200,9 +200,11 @@
     }
 
 
-    /* Frame 200의 모바일 배치에 맞춰 관심사 태그 줄을 숨긴다. */
+    /* 모바일에서도 태그를 보여주고 공간이 부족하면 다음 줄로 배치한다. */
     .tags {
-        display: none;
+        display: flex;
+        padding-left: 0;
+        justify-content: center;
     }
     /* 모바일에서 현재 1위 제목 위에 붙는 추가 여백을 없앤다. */
     #champion .title {
