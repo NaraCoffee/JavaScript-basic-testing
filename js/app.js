@@ -8,6 +8,20 @@ const page = document.querySelector('body');
 // header에도 top 클래스가 있으므로 footer 안의 .top만 골라 TOP 버튼을 찾는다.
 const topButton = document.querySelector('footer .top');
 
+// 모바일 메뉴 버튼을 누를 때마다 헤더의 open 클래스를 켜거나 끈다.
+const menuToggle = document.querySelector('.menu-toggle');
+const topBar = document.querySelector('.top-bar');
+const menuLinks = document.querySelectorAll('.menu a');
+menuToggle.addEventListener('click', function () {
+    topBar.classList.toggle('open');
+});
+// 메뉴를 선택하면 이동한 화면을 가리지 않도록 메뉴를 닫는다.
+menuLinks.forEach(function (link) {
+    link.addEventListener('click', function () {
+        topBar.classList.remove('open');
+    });
+});
+
 // 같은 스크롤 확인 작업을 반복해서 쓸 수 있도록 함수로 묶는다.
 // 함수 정의만으로는 실행되지 않는다. 아래의 이벤트 연결과 updateScroll() 호출이 이 함수를 실행한다.
 function updateScroll() {
