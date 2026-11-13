@@ -29,6 +29,13 @@ img {
     display: block;
     max-width: 100%;
 }
+
+
+/* 앵커(#id) 이동 시 순간이동하지 않고 부드럽게 스크롤되도록 설정한다. */
+html {
+    scroll-behavior: smooth;
+}
+
 /* 페이지 전체의 기본 글꼴·글자색·배경색이다. 한글 웹폰트는 index.html에서 불러온다. */
 body {
     font-family: "Noto Sans KR", sans-serif;
