@@ -15,48 +15,12 @@ const menuLinks = document.querySelectorAll('.menu a');
 menuToggle.addEventListener('click', function () {
     topBar.classList.toggle('open');
 });
-// 메뉴 링크를 누르면 기본 순간이동을 막고, 헤더 높이를 제외한 위치로 부드럽게 스크롤 이동한다.
+// 메뉴를 선택하면 이동한 화면을 가리지 않도록 메뉴를 닫는다.
 menuLinks.forEach(function (link) {
-    link.addEventListener('click', function (e) {
-        // a 태그 클릭 시 기본으로 일어나는 깜빡임·순간이동을 방지한다.
-        e.preventDefault();
-
-        // 클릭한 링크의 href 속성값('#champion' 등)을 가져온다.
-        const targetId = this.getAttribute('href');
-        const targetSection = document.querySelector(targetId);
-
-        if (targetSection) {
-            // 섹션의 세로 시작 위치(offsetTop)에서 상단 고정 헤더 높이(약 100px)를 빼서 가려짐을 방지한다.
-            const targetTop = targetSection.offsetTop - 100;
-
-            // 수업 3번 실습(TOP 버튼)과 동일하게 부드러운 스크롤 옵션을 전달한다.
-            window.scrollTo({
-                top: targetTop,
-                behavior: 'smooth'
-            });
-        }
-
-        // 모바일 화면에서 메뉴를 선택한 뒤 펼쳐진 메뉴창을 자동으로 닫는다.
-        if (topBar) {
-            topBar.classList.remove('open');
-        }
+    link.addEventListener('click', function () {
+        topBar.classList.remove('open');
     });
 });
-
-// 메인 배너의 '순위 보기' 버튼도 동일하게 부드럽게 스크롤 이동한다.
-const heroBtn = document.querySelector('.hero-text .btn');
-if (heroBtn) {
-    heroBtn.addEventListener('click', function (e) {
-        e.preventDefault();
-        const targetSection = document.querySelector('#champion');
-        if (targetSection) {
-            window.scrollTo({
-                top: targetSection.offsetTop - 100,
-                behavior: 'smooth'
-            });
-        }
-    });
-}
 
 // 같은 스크롤 확인 작업을 반복해서 쓸 수 있도록 함수로 묶는다.
 // 함수 정의만으로는 실행되지 않는다. 아래의 이벤트 연결과 updateScroll() 호출이 이 함수를 실행한다.
