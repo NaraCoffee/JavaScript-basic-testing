@@ -345,6 +345,7 @@
     .guide-content li.on {
         flex: 1 1 auto;
         width: calc(50% - 16px);
+        padding-top: 72px;
     }
 
 
@@ -357,7 +358,7 @@
     .guide-tabs button { width: 100%; }
     .guide-content { height: auto; flex-direction: column; box-shadow: none; padding: 12px; gap: 16px; }
     .guide-content li { flex: auto; width: auto; padding: 24px 16px 16px; min-height: 104px; }
-    .guide-content li.on { flex: auto; width: auto; min-height: 252px; }
+    .guide-content li.on { flex: auto; width: auto; min-height: 252px; padding-top: 72px; }
     .guide-content .thumb { display: none; }
     .guide-content p { display: none; }
     .guide-content li.on .thumb { display: flex; }
