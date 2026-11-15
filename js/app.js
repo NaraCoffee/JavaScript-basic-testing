@@ -9,7 +9,7 @@ const page = document.querySelector('body');
 const topButton = document.querySelector('footer .top');
 
 // 모바일 메뉴 버튼을 누를 때마다 body의 m-nav-open 클래스를 켜거나 끈다.
-const menuToggle = document.querySelector('.menu-toggle');
+const menuToggle = document.querySelector('.mob-nav-btn');
 const topBar = document.querySelector('.top-bar');
 const menuLinks = document.querySelectorAll('.menu a');
 menuToggle.addEventListener('click', function () {
