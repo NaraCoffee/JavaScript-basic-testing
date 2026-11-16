@@ -109,10 +109,38 @@
     main { padding: 0 16px 40px; }
     .title { margin: 40px 0 24px; font-size: 22px; }
 
-    .notice { flex-direction: column; gap: 12px; top: -40px; padding: 24px 20px; border-radius: 20px; text-align: center; }
-    .avatar { flex: none; }
-    .notice-text { flex: none; width: 100%; }
-    .tags { justify-content: center; padding-left: 0; }
+    /* 데스크톱 버전처럼 가로(row) 레이아웃과 배너 겹침(-60px)을 유지한다. */
+    .notice {
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        text-align: left;
+        top: -60px;
+        gap: 16px;
+        padding: 24px 20px;
+        border-radius: 28px;
+    }
+    .avatar {
+        flex: 0 0 64px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 64px;
+        height: 64px;
+        font-size: 32px;
+    }
+    .notice-text { flex: 1; min-width: 0; }
+    .notice-text h2 { font-size: 18px; }
+    .notice-text p { font-size: 13px; }
+    .tags {
+        width: 100%;
+        padding-left: 0;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 4px;
+    }
+    .tags li { padding: 4px 10px; font-size: 12px; }
     .leader { flex-direction: column; align-items: stretch; gap: 16px; padding: 20px; border-radius: 20px; }
     .leader-photo { flex: none; margin: 0 auto; border-radius: 12px; }
     .leader-photo img { width: 100%; height: auto; }
