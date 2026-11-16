@@ -1,6 +1,8 @@
 /* 1024px 이하는 태블릿: 기본 화면보다 여백과 글자 크기를 줄인다. */
 @media (max-width: 1024px) {
-    header.top { height: 480px; }
+    header.top { height: 420px; }
+    /* 창이 좁아져도 차량이 잘리지 않도록 배너 높이를 줄이고 배경 위치를 맞춘다. */
+    .hero-swiper .swiper-slide { background-position: 60% center; }
     .top-bar, .hero-text { width: 90%; }
     .top-bar { padding: 24px 0; }
     .logo { gap: 10px; font-size: 22px; }
@@ -73,7 +75,9 @@
 
 /* 768px 이하는 모바일: 가로 카드와 프로필을 세로로 쌓는다. */
 @media (max-width: 768px) {
-    header.top { height: 460px; }
+    header.top { height: 340px; }
+    /* 모바일에서 세로가 너무 길어 차량이 잘리는 현상을 막기 위해 높이를 줄이고 초점을 맞춘다. */
+    .hero-swiper .swiper-slide { background-position: 65% center; }
     .top-bar, .hero-text { width: calc(100% - 40px); }
     .top-bar { padding: 20px 0; }
     .logo img { width: 60px; }
