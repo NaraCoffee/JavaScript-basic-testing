@@ -43,40 +43,15 @@ body {
     background-color: #ffffff;
 }
 
-/* 맨 위의 큰 배너다. relative는 안에 있는 absolute 요소의 위치 기준을 만든다. */
+/* 맨 위의 큰 배너다. relative는 안에 있는 absolute 요소의 위치 기준을 만든다.
+   배경의 cover는 비율을 유지해 배너를 꽉 채우므로 사진 가장자리가 일부 잘릴 수 있다. */
 header.top {
     position: relative;
     height: 600px;
-}
-/* 배너 배경 이미지용 Swiper 슬라이더다. 배너 전체를 꽉 채우며 글자 뒤에 놓인다. */
-.hero-swiper {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-}
-.hero-swiper .s01 { background: url("../img/banner.jpg") center / cover no-repeat; }
-.hero-swiper .s02 { background: url("../img/hero2.png") center / cover no-repeat; }
-.hero-swiper .s03 { background: url("../img/hero3.png") center / cover no-repeat; }
-.hero-swiper .swiper-button-next,
-.hero-swiper .swiper-button-prev {
-    color: rgba(255, 255, 255, 0.8);
-    z-index: 10;
-}
-.hero-swiper .swiper-pagination {
-    bottom: 20px;
-    z-index: 10;
-}
-.hero-swiper .swiper-pagination-bullet {
-    background: rgba(255, 255, 255, 0.6);
-}
-.hero-swiper .swiper-pagination-bullet-active {
-    background: #e10600;
+    background: url("../img/banner.jpg") center / cover no-repeat;
 }
 /* HTML 태그를 추가하지 않고 배너 위에 어두운 막을 만든다.
-   pointer-events: none은 투명 막이 마우스 클릭을 가로채지 않게 한다. */
+   왼쪽이 더 어두운 그라데이션으로 흰 글씨를 읽기 쉽게 한다. rgba의 마지막 숫자는 불투명도다. */
 header.top::before {
     content: "";
     position: absolute;
@@ -84,8 +59,6 @@ header.top::before {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 1;
-    pointer-events: none;
     background: linear-gradient(90deg, rgba(10, 10, 30, 0.85), rgba(10, 10, 30, 0.1) 70%);
 }
 /* 스크롤해도 화면 위에 남는 로고·메뉴 줄이다. fixed는 화면을 기준으로 고정한다.
@@ -661,7 +634,6 @@ footer .top:hover {
 
 /* Frame 199의 탭 메뉴. 5번 수업의 flex와 on 클래스 방식으로 구성한다. */
 #guide { margin-bottom: 60px; }
-
 .guide-tabs {
     display: flex;
     justify-content: center;

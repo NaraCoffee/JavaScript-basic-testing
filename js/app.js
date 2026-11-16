@@ -71,7 +71,6 @@ function reset() {
         contents[i].classList.remove('on');
     }
 }
-
 tabs.forEach(function (tab, i) {
     tab.addEventListener('click', function () {
         reset();
@@ -84,16 +83,4 @@ contents.forEach(function (content, i) {
         reset();
         init(i);
     });
-});
-
-// 수업 7번 예제와 같이 상단 배너 배경용 Swiper 슬라이더를 연결한다.
-const heroSwiper = new Swiper('.hero-swiper', {
-    navigation: {
-        nextEl: '.hero-swiper .swiper-button-next',
-        prevEl: '.hero-swiper .swiper-button-prev',
-    },
-    pagination: {
-        el: '.hero-swiper .swiper-pagination',
-    },
-    loop: true
 });
